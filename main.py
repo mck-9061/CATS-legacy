@@ -280,6 +280,8 @@ def main_loop():
     global journal_directory
     global route_file
 
+    load_settings()
+
 
     latestJournal = latest_journal()
 

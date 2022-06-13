@@ -42,3 +42,9 @@ Make sure this file doesn't have any leading or trailing blank lines, and that a
 ### The photos file
 This contains links to photos that can be used by the Discord embed - one will be selected randomly when any message is sent.
 By default, it contains pictures of my carrier (Satellite Five). Change to pictures of your own carrier, or anything else, if you want.
+
+## Disclaimer
+Scripting in this manner is technically against FDev's TOS, although as far as I know, they haven't banned anyone for automating carrier jumps.
+Still, it is not my responsibility if anything happens to your account from using this script.
+
+o7

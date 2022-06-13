@@ -17,7 +17,7 @@ def post_to_discord(subject, webhook_url, message, routeName):
                      "name": routeName
                  },
                  "footer": {
-                     "text": "Fleet Carrier Advanced Flight Computer",
+                     "text": "Carrier Advanced Traversal System",
                  }
                  }],
     )

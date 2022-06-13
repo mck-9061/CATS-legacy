@@ -16,10 +16,12 @@ import pygetwindow as gw
 # ----Options----
 # How many up presses to reach tritium in carrier hold:
 global tritium_slot
+tritium_slot = 0
 # Time to refill trit
 hold_time = 10
 
 global route_file
+route_file = ""
 
 window_name = "Elite - Dangerous (CLIENT)"
 
@@ -27,8 +29,10 @@ window_name = "Elite - Dangerous (CLIENT)"
 # webhook_url = "https://discord.com/api/webhooks/985215199034351696/dsV5EQQO0bvPTwwP0l-8E3FJltFL7B3h8MHnuK3zIzG5BqNjaERE8ZLO87Q0I7t9Nw_P"
 # Prod webhook
 global webhook_url
+webhook_url = ""
 
 global journal_directory
+journal_directory = ""
 
 
 def load_settings():
@@ -43,14 +47,23 @@ def load_settings():
 
         try:
             for line in a:
-                if line.startswith("webhook_url="): webhook_url = line.split("=")[1]
-                if line.startswith("journal_directory="): journal_directory = line.split("=")[1]
+                if line.startswith("webhook_url="):
+                    print(line)
+                    webhook_url = line.split("=")[1]
+                if line.startswith("journal_directory="):
+                    print(line)
+                    journal_directory = line.split("=")[1]
+                    latest_journal()
 
-                latest_journal()
 
-                if line.startswith("tritium_slot="): tritium_slot = int(line.split("=")[1])
-                if line.startswith("route_file="): route_file = int(line.split("=")[1])
-        except:
+                if line.startswith("tritium_slot="):
+                    print(line)
+                    tritium_slot = int(line.split("=")[1])
+                if line.startswith("route_file="):
+                    print(line)
+                    route_file = line.split("=")[1]
+        except Exception as e:
+            print(e)
             print("There seems to be a problem with your settings file. Make sure of the following:\n"
                   "- Your tritium slot is a valid integer. It should be the number of up presses it takes to reach "
                   "tritium in your carrier's cargo hold from the transfer menu.\n"
@@ -68,6 +81,7 @@ def load_settings():
 
 
 def latest_journal():
+    global journal_directory
     dir_name = journal_directory
     # Get list of all files only in the given directory
     list_of_files = filter(lambda x: os.path.isfile(os.path.join(dir_name, x)),
@@ -282,6 +296,7 @@ def main_loop():
 
     load_settings()
 
+    time.sleep(5)
 
     latestJournal = latest_journal()
 

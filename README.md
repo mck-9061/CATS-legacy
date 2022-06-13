@@ -1,4 +1,4 @@
-# CATS (Carrier Advanced Traversal System)
+# CATS (Carrier Administration and Traversal System)
 CATS is a flight computer to help guide your Fleet Carrier in Elite Dangerous
 across many thousands of light years automatically.
 
@@ -42,6 +42,26 @@ Make sure this file doesn't have any leading or trailing blank lines, and that a
 ### The photos file
 This contains links to photos that can be used by the Discord embed - one will be selected randomly when any message is sent.
 By default, it contains pictures of my carrier (Satellite Five). Change to pictures of your own carrier, or anything else, if you want.
+
+## Usage
+- First, dock with your carrier. CATS doesn't work remotely, as it needs to be able to restock Tritium. 
+- Make sure your cursor is over the "Carrier Services" option, and that your internal panel (right) is on the home tab. 
+- Then, run ``python main.py``.
+- Don't touch your computer while CATS is navigating your carrier or restocking tritium or something will probably go wrong.
+- A countdown is provided in the console once navigation is complete - at this point, it's safe to control your computer again.
+- Once the carrier has jumped, a second timer will countdown for the jump cooldown. Once this hits 150, it will restock
+tritium - again, don't touch your computer until it confirms it has restocked successfully.
+
+CATS will automatically switch focus to the game window when it needs to control the game - so if you have something over it
+and it suddenly switches, let go of your keyboard and mouse.
+
+## Issues/stuff being worked on
+- This currently only works on Odyssey. Horizons support is being worked on.
+- Sometimes the menu bugs out and starts randomly selecting things. It shouldn't cause any damage; CATS will 
+eventually realise the jump wasn't plotted and will try again.
+- CATS can detect when the game crashes normally, but sometimes Elite likes to crash in really funky ways, so CATS will just continue
+attempting to plot the jump.
+Basically, keep an eye on it where possible, but everything should be mostly automated unless a crash occurs.
 
 ## Disclaimer
 Scripting in this manner is technically against FDev's TOS, although as far as I know, they haven't banned anyone for automating carrier jumps.

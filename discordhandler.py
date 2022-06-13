@@ -17,7 +17,7 @@ def post_to_discord(subject, webhook_url, message, routeName):
                      "name": routeName
                  },
                  "footer": {
-                     "text": "Carrier Advanced Traversal System",
+                     "text": "Carrier Administration and Traversal System",
                  }
                  }],
     )

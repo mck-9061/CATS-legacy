@@ -13,7 +13,8 @@ as well as restocking the depot with Tritium after every jump.
 - Discord integration
 
 ## Installation
-The script requires Python 3.9 to be installed.
+The script has been tested on Python 3.9, though it will likely work on other Python 3.x versions as well.
+
 The required Python modules can be installed by running:
 
 ``pip install -r requirements.txt``

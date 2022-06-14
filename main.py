@@ -1,3 +1,19 @@
+# Greetings commander!
+# If you're reading this, it means one of two things:
+#
+# - You're a user who just attempted to run CATS by double clicking main.py. I'd advise you to try reading the
+#   provided README file.
+#
+# - You're a developer who's about to find out just how shit this code is. Good luck attempting to even read this.
+#   The code quality can be attributed to the fact that this was intended to be a quick script and ended up not
+#   being that, so lots of things are hacky and held together with string and tape.
+#   It can also be attributed to the fact that I've only ever used Python for quick scripts so I've never been
+#   bothered to find out proper Python programming techniques. It's a scripting language in my mind, not
+#   object oriented. Sue me.
+#   Maybe I'll refactor and document it at some point. I wouldn't count on it. Do it yourself and open a PR
+#   if it bothers you.
+
+
 import os
 import time
 import pydirectinput
@@ -470,23 +486,23 @@ def main_loop():
 
             if totalTime == 600:
                 update_fields("~~Waiting...~~\n"
-                                                   "**Jump locked**\n"
-                                                   "Lockdown protocol active\n"
-                                                   "Powering FSD\n"
-                                                   "Initiating FSD\n"
-                                                   "Entering hyperspace portal\n"
-                                                   "Traversing hyperspace\n"
-                                                   "Exiting hyperspace portal\n"
-                                                   "FSD cooling down\n"
-                                                   "Jump complete",
-                                 "~~Waiting...~~\n"
-                                 "**Preparing carrier for hyperspace...**\n"
-                                 "Services taken down\n"
-                                 "Landing pads retracting\n"
-                                 "Bulkheads closing\n"
-                                 "Airlocks sealing\n"
-                                 "Task confirmation\n"
-                                 "Refuelling tritium")
+                              "**Jump locked**\n"
+                              "Lockdown protocol active\n"
+                              "Powering FSD\n"
+                              "Initiating FSD\n"
+                              "Entering hyperspace portal\n"
+                              "Traversing hyperspace\n"
+                              "Exiting hyperspace portal\n"
+                              "FSD cooling down\n"
+                              "Jump complete",
+                              "~~Waiting...~~\n"
+                              "**Preparing carrier for hyperspace...**\n"
+                              "Services taken down\n"
+                              "Landing pads retracting\n"
+                              "Bulkheads closing\n"
+                              "Airlocks sealing\n"
+                              "Task confirmation\n"
+                              "Refuelling tritium")
             elif totalTime == 200:
                 update_fields("~~Waiting...~~\n"
                               "~~Jump locked~~\n"
@@ -708,7 +724,6 @@ def main_loop():
                               "~~Maintenance task confirmation acknowledged~~\n"
                               "Refuelling tritium")
 
-
             totalTime -= 1
 
         print("Jumping!")
@@ -733,7 +748,6 @@ def main_loop():
                       "~~Maintenance task confirmation acknowledged~~\n"
                       "Refuelling tritium")
 
-
         lineNo += 1
 
         if not line == finalLine:
@@ -741,7 +755,6 @@ def main_loop():
             totalTime = 362
             while totalTime > 0:
                 print(totalTime)
-
 
                 if totalTime == 340:
                     update_fields("~~Waiting...~~\n"
@@ -895,7 +908,6 @@ def main_loop():
                           "~~Airlocks sealing...DONE~~\n"
                           "~~Maintenance task confirmation acknowledged~~\n"
                           "~~Refuelling tritium...N/A~~")
-
 
             totalTime = 60
             while totalTime > 0:

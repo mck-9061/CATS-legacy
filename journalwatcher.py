@@ -23,7 +23,7 @@ def process_journal(file_name):
     journalText = journal.read()
     journal.close()
 
-    if journalText != lastJournalText:
+    if journalText != lastJournalText and not firstRun:
         newText = journalText.replace(lastJournalText, "").strip()
 
         for line in newText.split("\n"):
@@ -34,9 +34,12 @@ def process_journal(file_name):
                 track = line.split(':')[5].split('"')[1].strip()
                 print("Music track: " + track)
 
-                if track == "MainMenu" and not firstRun:
+                if track == "MainMenu":
                     print("Game has crashed!!")
                     return False
+            if event == "Shutdown":
+                print("Game has crashed!!")
+                return False
 
 
 

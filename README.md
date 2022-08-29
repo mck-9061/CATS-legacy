@@ -58,6 +58,7 @@ and it suddenly switches, let go of your keyboard and mouse.
 
 ## Issues/stuff being worked on
 - This currently only works on Odyssey. Horizons support is being worked on.
+- The system reads the time-to-jump using an image-to-text library that isn't always entirely dependent. It will also only work if Elite is on your primary monitor, and both your primary monitor and Elite's resolution is set to 1920x1080.
 - Sometimes the menu bugs out and starts randomly selecting things. It shouldn't cause any damage; CATS will 
 eventually realise the jump wasn't plotted and will try again.
 - CATS can detect when the game crashes normally, but sometimes Elite likes to crash in really funky ways, so CATS will just continue

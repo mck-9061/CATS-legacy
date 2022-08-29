@@ -12,6 +12,8 @@
 #   object oriented. Sue me.
 #   Maybe I'll refactor and document it at some point. I wouldn't count on it. Do it yourself and open a PR
 #   if it bothers you.
+#   At least it used to be much worse. Take a look at some of the old commits if you like. We love thousand-line
+#   python files that could be much simpler, right?
 
 
 import os
@@ -116,120 +118,54 @@ def latest_journal():
 def slight_random_time(time):
     return random.random() + time
 
+def follow_button_sequence(sequence_name):
+    sequence = open("sequences/"+sequence_name, "r").read().split("\n")
+
+    for line in sequence:
+        if line.__contains__(":"):
+            pydirectinput.keyDown(line.split(":")[0])
+            time.sleep(slight_random_time(int(line.split(":")[1])))
+            pydirectinput.keyUp(line.split(":")[0])
+        else:
+            wait_time = 0.1
+            key = line
+
+            if line.__contains__("-"):
+                wait_time = int(line.split("-")[1])
+                key = line.split("-")[0]
+
+            pydirectinput.press(key)
+            time.sleep(slight_random_time(wait_time))
+
 
 def restock_tritium():
     # Navigate menu
-    pydirectinput.press('4')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('e')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('e')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('e')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('e')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('d')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('w')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('d')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(0.1))
+    follow_button_sequence("restock_nav_1.txt")
 
     for i in range(tritium_slot):
         pydirectinput.press('up')
         time.sleep(slight_random_time(0.1))
 
-    pydirectinput.keyDown('left')
-    time.sleep(slight_random_time(hold_time))
-    pydirectinput.keyUp('left')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('backspace')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('q')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('q')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('q')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('q')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('4')
-    time.sleep(slight_random_time(0.1))
-
-    # Refill tank
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(5))
-    pydirectinput.press('s')
-    time.sleep(slight_random_time(0.2))
-    pydirectinput.press('s')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('w')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('backspace')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('s')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(0.1))
-
-    # Navigate back to menu
-    pydirectinput.press('backspace')
+    follow_button_sequence("restock_nav_2.txt")
 
     print("Tritium successfully refuelled.")
 
 
 def jump_to_system(system_name):
-    # Navigate menu
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(5))
-    pydirectinput.press('d')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('s')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('d')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('space')
+    follow_button_sequence("jump_nav_1.txt")
 
-    time.sleep(slight_random_time(6.0))
-
-    # Navigate carrier menu
-    pydirectinput.press('s')
-    time.sleep(slight_random_time(0.1))
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(0.1))
-
-    # Select system
-    pydirectinput.press('space')
-    time.sleep(slight_random_time(4.0))
     pyautogui.moveTo(921, 115)
     time.sleep(slight_random_time(0.1))
     pyautogui.moveTo(930, 115)
     time.sleep(slight_random_time(0.1))
     pydirectinput.press('space')
-
     pyperclip.copy(system_name.lower())
     time.sleep(slight_random_time(1.0))
-
-    # pydirectinput.write(system_name.lower())
     pydirectinput.keyDown("ctrl")
     time.sleep(slight_random_time(0.1))
     pydirectinput.press("v")
     time.sleep(slight_random_time(0.1))
     pydirectinput.keyUp("ctrl")
-
     time.sleep(slight_random_time(3.0))
     pydirectinput.press('down')
     time.sleep(slight_random_time(0.1))
@@ -251,30 +187,7 @@ def jump_to_system(system_name):
         print(system_name)
         print("Jump appears to have failed.")
         print("Re-attempting...")
-        pydirectinput.press('backspace')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('backspace')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('backspace')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('backspace')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('backspace')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('backspace')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('w')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('w')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('w')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('w')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('w')
-        time.sleep(slight_random_time(0.1))
-        pydirectinput.press('s')
-        time.sleep(slight_random_time(0.1))
+        follow_button_sequence("jump_fail.txt")
         return 0
 
     timeToJump = time_until_jump()
@@ -377,7 +290,7 @@ def main_loop():
             minutes = int(timeToJump.split(':')[1])
             seconds = int(timeToJump.split(':')[2])
 
-            totalTime = (hours * 3600) + (minutes * 60) + seconds - 10
+            totalTime = (hours * 3600) + (minutes * 60) + seconds - 12
 
             if totalTime > 900:
                 arrivalTime = arrivalTime + datetime.timedelta(seconds=totalTime - 900)
@@ -392,24 +305,10 @@ def main_loop():
                                      jumpsLeft) +
                                  "\nEstimated time until next jump: " + timeToJump +
                                  "\nEstimated time of route completion: " + arrivalTime.strftime("%d %b %Y %H:%M %Z") +
-                                 "\no7", routeName, "**Waiting...**\n"
-                                                    "Jump locked\n"
-                                                    "Lockdown protocol active\n"
-                                                    "Powering FSD\n"
-                                                    "Initiating FSD\n"
-                                                    "Entering hyperspace portal\n"
-                                                    "Traversing hyperspace\n"
-                                                    "Exiting hyperspace portal\n"
-                                                    "FSD cooling down\n"
-                                                    "Jump complete",
-                                 "**Waiting...**\n"
-                                 "Preparing carrier for hyperspace\n"
-                                 "Services taken down\n"
-                                 "Landing pads retracting\n"
-                                 "Bulkheads closing\n"
-                                 "Airlocks sealing\n"
-                                 "Task confirmation\n"
-                                 "Refuelling tritium")
+                                 "\no7", routeName, "Wait...",
+                                 "Wait...")
+                time.sleep(2)
+                update_fields(0, 0)
             else:
                 if not saved:
                     post_with_fields("Flight Begun", webhook_url,
@@ -419,50 +318,21 @@ def main_loop():
                                      "\nEstimated time until first jump: " + timeToJump +
                                      "\nEstimated time of route completion: " + arrivalTime.strftime(
                                          "%d %b %Y %H:%M %Z") +
-                                     "\no7", routeName, "**Waiting...**\n"
-                                                        "Jump locked\n"
-                                                        "Lockdown protocol active\n"
-                                                        "Powering FSD\n"
-                                                        "Initiating FSD\n"
-                                                        "Entering hyperspace portal\n"
-                                                        "Traversing hyperspace\n"
-                                                        "Exiting hyperspace portal\n"
-                                                        "FSD cooling down\n"
-                                                        "Jump complete",
-                                     "**Waiting...**\n"
-                                     "Preparing carrier for hyperspace\n"
-                                     "Services taken down\n"
-                                     "Landing pads retracting\n"
-                                     "Bulkheads closing\n"
-                                     "Airlocks sealing\n"
-                                     "Task confirmation\n"
-                                     "Refuelling tritium"
-                                     )
+                                     "\no7", routeName, "Wait...",
+                                     "Wait...")
+                    time.sleep(2)
+                    update_fields(0, 0)
                 else:
                     post_with_fields("Flight Resumed", webhook_url,
                                      "The Flight Computer has resumed navigation.\n"
                                      "Estimated time until first jump: " + timeToJump +
                                      "\nEstimated time of route completion: " + arrivalTime.strftime(
                                          "%d %b %Y %H:%M %Z") +
-                                     "\no7", routeName, "**Waiting...**\n"
-                                                        "Jump locked\n"
-                                                        "Lockdown protocol active\n"
-                                                        "Powering FSD\n"
-                                                        "Initiating FSD\n"
-                                                        "Entering hyperspace portal\n"
-                                                        "Traversing hyperspace\n"
-                                                        "Exiting hyperspace portal\n"
-                                                        "FSD cooling down\n"
-                                                        "Jump complete",
-                                     "**Waiting...**\n"
-                                     "Preparing carrier for hyperspace\n"
-                                     "Services taken down\n"
-                                     "Landing pads retracting\n"
-                                     "Bulkheads closing\n"
-                                     "Airlocks sealing\n"
-                                     "Task confirmation\n"
-                                     "Refuelling tritium"
+                                     "\no7", routeName, "Wait...",
+                                     "Wait..."
                                      )
+                    time.sleep(2)
+                    update_fields(0, 0)
 
 
         except Exception as e:
@@ -485,268 +355,29 @@ def main_loop():
             time.sleep(1)
 
             if totalTime == 600:
-                update_fields("~~Waiting...~~\n"
-                              "**Jump locked**\n"
-                              "Lockdown protocol active\n"
-                              "Powering FSD\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-                              "~~Waiting...~~\n"
-                              "**Preparing carrier for hyperspace...**\n"
-                              "Services taken down\n"
-                              "Landing pads retracting\n"
-                              "Bulkheads closing\n"
-                              "Airlocks sealing\n"
-                              "Task confirmation\n"
-                              "Refuelling tritium")
+                update_fields(1, 1)
             elif totalTime == 200:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "**Lockdown protocol active**\n"
-                              "Powering FSD\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "**Preparing carrier for hyperspace...**\n"
-                              "**Services taken down...**\n"
-                              "Landing pads retracting\n"
-                              "Bulkheads closing\n"
-                              "Airlocks sealing\n"
-                              "Task confirmation\n"
-                              "Refuelling tritium")
+                update_fields(2, 2)
             elif totalTime == 190:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "**Lockdown protocol active**\n"
-                              "Powering FSD\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "**Preparing carrier for hyperspace...**\n"
-                              "~~Services taken down...DONE~~\n"
-                              "Landing pads retracting\n"
-                              "Bulkheads closing\n"
-                              "Airlocks sealing\n"
-                              "Task confirmation\n"
-                              "Refuelling tritium")
-            elif totalTime == 160:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "**Lockdown protocol active**\n"
-                              "Powering FSD\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "**Preparing carrier for hyperspace...**\n"
-                              "~~Services taken down...DONE~~\n"
-                              "**Landing pads retracting...**\n"
-                              "Bulkheads closing\n"
-                              "Airlocks sealing\n"
-                              "Task confirmation\n"
-                              "Refuelling tritium")
+                update_fields(2, 3)
             elif totalTime == 144:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "**Lockdown protocol active**\n"
-                              "Powering FSD\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "**Preparing carrier for hyperspace...**\n"
-                              "~~Services taken down...DONE~~\n"
-                              "~~Landing pads retracting...DONE~~\n"
-                              "Bulkheads closing\n"
-                              "Airlocks sealing\n"
-                              "Task confirmation\n"
-                              "Refuelling tritium")
-            elif totalTime == 120:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "**Lockdown protocol active**\n"
-                              "Powering FSD\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "**Preparing carrier for hyperspace...**\n"
-                              "~~Services taken down...DONE~~\n"
-                              "~~Landing pads retracting...DONE~~\n"
-                              "**Bulkheads closing...**\n"
-                              "Airlocks sealing\n"
-                              "Task confirmation\n"
-                              "Refuelling tritium")
+                update_fields(2, 4)
             elif totalTime == 103:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "**Lockdown protocol active**\n"
-                              "Powering FSD\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "**Preparing carrier for hyperspace...**\n"
-                              "~~Services taken down...DONE~~\n"
-                              "~~Landing pads retracting...DONE~~\n"
-                              "~~Bulkheads closing...DONE~~\n"
-                              "Airlocks sealing\n"
-                              "Task confirmation\n"
-                              "Refuelling tritium")
-            elif totalTime == 98:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "**Lockdown protocol active**\n"
-                              "Powering FSD\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "**Preparing carrier for hyperspace...**\n"
-                              "~~Services taken down...DONE~~\n"
-                              "~~Landing pads retracting...DONE~~\n"
-                              "~~Bulkheads closing...DONE~~\n"
-                              "**Airlocks sealing...**\n"
-                              "Task confirmation\n"
-                              "Refuelling tritium")
+                update_fields(2, 5)
             elif totalTime == 90:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "**Lockdown protocol active**\n"
-                              "Powering FSD\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "**Preparing carrier for hyperspace...**\n"
-                              "~~Services taken down...DONE~~\n"
-                              "~~Landing pads retracting...DONE~~\n"
-                              "~~Bulkheads closing...DONE~~\n"
-                              "~~Airlocks sealing...DONE~~\n"
-                              "**Waiting for task confirmation...**\n"
-                              "Refuelling tritium")
+                update_fields(2, 6)
             elif totalTime == 75:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "**Lockdown protocol active**\n"
-                              "Powering FSD\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "~~Preparing carrier for hyperspace...DONE~~\n"
-                              "~~Services taken down...DONE~~\n"
-                              "~~Landing pads retracting...DONE~~\n"
-                              "~~Bulkheads closing...DONE~~\n"
-                              "~~Airlocks sealing...DONE~~\n"
-                              "~~Maintenance task confirmation acknowledged~~\n"
-                              "Refuelling tritium")
+                update_fields(2, 7)
             elif totalTime == 60:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "~~Lockdown protocol active~~\n"
-                              "**Powering FSD**\n"
-                              "Initiating FSD\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "~~Preparing carrier for hyperspace...DONE~~\n"
-                              "~~Services taken down...DONE~~\n"
-                              "~~Landing pads retracting...DONE~~\n"
-                              "~~Bulkheads closing...DONE~~\n"
-                              "~~Airlocks sealing...DONE~~\n"
-                              "~~Maintenance task confirmation acknowledged~~\n"
-                              "Refuelling tritium")
+                update_fields(3, 7)
             elif totalTime == 30:
-                update_fields("~~Waiting...~~\n"
-                              "~~Jump locked~~\n"
-                              "~~Lockdown protocol active~~\n"
-                              "~~Powering FSD~~\n"
-                              "**Initiating FSD**\n"
-                              "Entering hyperspace portal\n"
-                              "Traversing hyperspace\n"
-                              "Exiting hyperspace portal\n"
-                              "FSD cooling down\n"
-                              "Jump complete",
-
-                              "~~Waiting...~~\n"
-                              "~~Preparing carrier for hyperspace...DONE~~\n"
-                              "~~Services taken down...DONE~~\n"
-                              "~~Landing pads retracting...DONE~~\n"
-                              "~~Bulkheads closing...DONE~~\n"
-                              "~~Airlocks sealing...DONE~~\n"
-                              "~~Maintenance task confirmation acknowledged~~\n"
-                              "Refuelling tritium")
+                update_fields(4, 7)
 
             totalTime -= 1
 
         print("Jumping!")
 
-        update_fields("~~Waiting...~~\n"
-                      "~~Jump locked~~\n"
-                      "~~Lockdown protocol active~~\n"
-                      "~~Powering FSD~~\n"
-                      "~~Initiating FSD~~\n"
-                      "**Entering hyperspace portal**\n"
-                      "Traversing hyperspace\n"
-                      "Exiting hyperspace portal\n"
-                      "FSD cooling down\n"
-                      "Jump complete",
-
-                      "~~Waiting...~~\n"
-                      "~~Preparing carrier for hyperspace...DONE~~\n"
-                      "~~Services taken down...DONE~~\n"
-                      "~~Landing pads retracting...DONE~~\n"
-                      "~~Bulkheads closing...DONE~~\n"
-                      "~~Airlocks sealing...DONE~~\n"
-                      "~~Maintenance task confirmation acknowledged~~\n"
-                      "Refuelling tritium")
+        update_fields(5, 7)
 
         lineNo += 1
 
@@ -757,105 +388,15 @@ def main_loop():
                 print(totalTime)
 
                 if totalTime == 340:
-                    update_fields("~~Waiting...~~\n"
-                                  "~~Jump locked~~\n"
-                                  "~~Lockdown protocol active~~\n"
-                                  "~~Powering FSD~~\n"
-                                  "~~Initiating FSD~~\n"
-                                  "~~Entering hyperspace portal~~\n"
-                                  "**Traversing hyperspace**\n"
-                                  "Exiting hyperspace portal\n"
-                                  "FSD cooling down\n"
-                                  "Jump complete",
-
-                                  "~~Waiting...~~\n"
-                                  "~~Preparing carrier for hyperspace...DONE~~\n"
-                                  "~~Services taken down...DONE~~\n"
-                                  "~~Landing pads retracting...DONE~~\n"
-                                  "~~Bulkheads closing...DONE~~\n"
-                                  "~~Airlocks sealing...DONE~~\n"
-                                  "~~Maintenance task confirmation acknowledged~~\n"
-                                  "Refuelling tritium")
+                    update_fields(6, 7)
                 elif totalTime == 320:
-                    update_fields("~~Waiting...~~\n"
-                                  "~~Jump locked~~\n"
-                                  "~~Lockdown protocol active~~\n"
-                                  "~~Powering FSD~~\n"
-                                  "~~Initiating FSD~~\n"
-                                  "~~Entering hyperspace portal~~\n"
-                                  "~~Traversing hyperspace~~\n"
-                                  "**Exiting hyperspace portal**\n"
-                                  "FSD cooling down\n"
-                                  "Jump complete",
-
-                                  "~~Waiting...~~\n"
-                                  "~~Preparing carrier for hyperspace...DONE~~\n"
-                                  "~~Services taken down...DONE~~\n"
-                                  "~~Landing pads retracting...DONE~~\n"
-                                  "~~Bulkheads closing...DONE~~\n"
-                                  "~~Airlocks sealing...DONE~~\n"
-                                  "~~Maintenance task confirmation acknowledged~~\n"
-                                  "Refuelling tritium")
+                    update_fields(7, 7)
                 elif totalTime == 300:
-                    update_fields("~~Waiting...~~\n"
-                                  "~~Jump locked~~\n"
-                                  "~~Lockdown protocol active~~\n"
-                                  "~~Powering FSD~~\n"
-                                  "~~Initiating FSD~~\n"
-                                  "~~Entering hyperspace portal~~\n"
-                                  "~~Traversing hyperspace~~\n"
-                                  "~~Exiting hyperspace portal~~\n"
-                                  "**FSD cooling down**\n"
-                                  "Jump complete",
-
-                                  "~~Waiting...~~\n"
-                                  "~~Preparing carrier for hyperspace...DONE~~\n"
-                                  "~~Services taken down...DONE~~\n"
-                                  "~~Landing pads retracting...DONE~~\n"
-                                  "~~Bulkheads closing...DONE~~\n"
-                                  "~~Airlocks sealing...DONE~~\n"
-                                  "~~Maintenance task confirmation acknowledged~~\n"
-                                  "Refuelling tritium")
+                    update_fields(8, 7)
                 elif totalTime == 151:
-                    update_fields("~~Waiting...~~\n"
-                                  "~~Jump locked~~\n"
-                                  "~~Lockdown protocol active~~\n"
-                                  "~~Powering FSD~~\n"
-                                  "~~Initiating FSD~~\n"
-                                  "~~Entering hyperspace portal~~\n"
-                                  "~~Traversing hyperspace~~\n"
-                                  "~~Exiting hyperspace portal~~\n"
-                                  "**FSD cooling down**\n"
-                                  "Jump complete",
-
-                                  "~~Waiting...~~\n"
-                                  "~~Preparing carrier for hyperspace...DONE~~\n"
-                                  "~~Services taken down...DONE~~\n"
-                                  "~~Landing pads retracting...DONE~~\n"
-                                  "~~Bulkheads closing...DONE~~\n"
-                                  "~~Airlocks sealing...DONE~~\n"
-                                  "~~Maintenance task confirmation acknowledged~~\n"
-                                  "**Refuelling tritium...**")
+                    update_fields(8, 8)
                 elif totalTime == 100:
-                    update_fields("~~Waiting...~~\n"
-                                  "~~Jump locked~~\n"
-                                  "~~Lockdown protocol active~~\n"
-                                  "~~Powering FSD~~\n"
-                                  "~~Initiating FSD~~\n"
-                                  "~~Entering hyperspace portal~~\n"
-                                  "~~Traversing hyperspace~~\n"
-                                  "~~Exiting hyperspace portal~~\n"
-                                  "**FSD cooling down**\n"
-                                  "Jump complete",
-
-                                  "~~Waiting...~~\n"
-                                  "~~Preparing carrier for hyperspace...DONE~~\n"
-                                  "~~Services taken down...DONE~~\n"
-                                  "~~Landing pads retracting...DONE~~\n"
-                                  "~~Bulkheads closing...DONE~~\n"
-                                  "~~Airlocks sealing...DONE~~\n"
-                                  "~~Maintenance task confirmation acknowledged~~\n"
-                                  "~~Refuelling tritium...DONE~~")
+                    update_fields(8, 9)
 
                 elif totalTime == 150:
                     print("Restocking tritium...")
@@ -866,48 +407,12 @@ def main_loop():
 
                 time.sleep(1)
                 totalTime -= 1
-            update_fields("~~Waiting...~~\n"
-                          "~~Jump locked~~\n"
-                          "~~Lockdown protocol active~~\n"
-                          "~~Powering FSD~~\n"
-                          "~~Initiating FSD~~\n"
-                          "~~Entering hyperspace portal~~\n"
-                          "~~Traversing hyperspace~~\n"
-                          "~~Exiting hyperspace portal~~\n"
-                          "~~FSD cooling down~~\n"
-                          "**Jump complete!**",
-
-                          "~~Waiting...~~\n"
-                          "~~Preparing carrier for hyperspace...DONE~~\n"
-                          "~~Services taken down...DONE~~\n"
-                          "~~Landing pads retracting...DONE~~\n"
-                          "~~Bulkheads closing...DONE~~\n"
-                          "~~Airlocks sealing...DONE~~\n"
-                          "~~Maintenance task confirmation acknowledged~~\n"
-                          "~~Refuelling tritium...DONE~~")
+            update_fields(9, 9)
 
         else:
             print("Counting down until jump finishes...")
 
-            update_fields("~~Waiting...~~\n"
-                          "~~Jump locked~~\n"
-                          "~~Lockdown protocol active~~\n"
-                          "~~Powering FSD~~\n"
-                          "~~Initiating FSD~~\n"
-                          "~~Entering hyperspace portal~~\n"
-                          "~~Traversing hyperspace~~\n"
-                          "~~Exiting hyperspace portal~~\n"
-                          "~~FSD cooling down~~\n"
-                          "**Jump complete!**",
-
-                          "~~Waiting...~~\n"
-                          "~~Preparing carrier for hyperspace...DONE~~\n"
-                          "~~Services taken down...DONE~~\n"
-                          "~~Landing pads retracting...DONE~~\n"
-                          "~~Bulkheads closing...DONE~~\n"
-                          "~~Airlocks sealing...DONE~~\n"
-                          "~~Maintenance task confirmation acknowledged~~\n"
-                          "~~Refuelling tritium...N/A~~")
+            update_fields(9, 9)
 
             totalTime = 60
             while totalTime > 0:

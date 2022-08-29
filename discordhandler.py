@@ -5,6 +5,7 @@ global lastSent
 global lastHook
 global lastEmbed
 
+
 def post_to_discord(subject, webhook_url, message, routeName):
     photosFile = open("photos.txt", "r")
     photo = random.choice(photosFile.read().split("\n"))
@@ -18,6 +19,7 @@ def post_to_discord(subject, webhook_url, message, routeName):
     embed.set_footer(text="Carrier Administration and Traversal System")
 
     webhook.add_embed(embed)
+
 
 def post_with_fields(subject, webhook_url, message, routeName, carrierStage, maintenanceStage):
     global lastSent
@@ -45,18 +47,53 @@ def post_with_fields(subject, webhook_url, message, routeName, carrierStage, mai
     lastSent = webhook.execute()
     lastHook = webhook
 
+
 def update_fields(carrierStage, maintenanceStage):
     global lastSent
     global lastHook
     global lastEmbed
+
+    default_carrier_stage = "Waiting...\nJump locked\nLockdown protocol active\nPowering FSD\nInitiating FSD\nEntering hyperspace portal\nTraversing hyperspace\nExiting hyperspace portal\nFSD cooling down\nJump complete"
+
+    default_maintenance_stage = "Waiting\nPreparing carrier for hyperspace\nServices taken down\nLanding pads retracting\nBulkheads closing\nAirlocks sealing\nTask confirmation\nWaiting\nRestocking Tritium\nDone"
+
+    c_stage_list = default_carrier_stage.split("\n")
+    m_stage_list = default_maintenance_stage.split("\n")
+
+    new_carrier_stage = ""
+    new_maintenance_stage = ""
+
+
+    i = 0
+    for stage in c_stage_list:
+        if i < carrierStage:
+            new_carrier_stage += "~~" + stage + "~~\n"
+        elif i == carrierStage:
+            new_carrier_stage += "**" + stage + "**\n"
+        else:
+            new_carrier_stage += stage + "\n"
+        i += 1
+
+    i = 0
+    for stage in m_stage_list:
+        if i < maintenanceStage:
+            new_maintenance_stage += "~~" + stage + "...DONE~~\n"
+        elif i == carrierStage:
+            new_maintenance_stage += "**" + stage + "...**\n"
+        else:
+            new_maintenance_stage += stage + "\n"
+        i += 1
+
+
+
 
     lastHook.remove_embeds()
 
     lastEmbed.del_embed_field(0)
     lastEmbed.del_embed_field(0)
 
-    lastEmbed.add_embed_field(name="Jump stage", value=carrierStage)
-    lastEmbed.add_embed_field(name="Maintenance stage", value=maintenanceStage)
+    lastEmbed.add_embed_field(name="Jump stage", value=new_carrier_stage)
+    lastEmbed.add_embed_field(name="Maintenance stage", value=new_maintenance_stage)
 
     lastHook.add_embed(lastEmbed)
 

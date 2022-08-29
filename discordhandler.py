@@ -78,7 +78,7 @@ def update_fields(carrierStage, maintenanceStage):
     for stage in m_stage_list:
         if i < maintenanceStage:
             new_maintenance_stage += "~~" + stage + "...DONE~~\n"
-        elif i == carrierStage:
+        elif i == maintenanceStage:
             new_maintenance_stage += "**" + stage + "...**\n"
         else:
             new_maintenance_stage += stage + "\n"

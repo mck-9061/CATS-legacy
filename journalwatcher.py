@@ -28,11 +28,11 @@ def process_journal(file_name):
 
         for line in newText.split("\n"):
             event = line.split(':')[4].split('"')[1].strip()
-            print(event)
+            #print(event)
 
             if event == "Music":
                 track = line.split(':')[5].split('"')[1].strip()
-                print("Music track: " + track)
+                #print("Music track: " + track)
 
                 if track == "MainMenu":
                     print("Game has crashed!!")

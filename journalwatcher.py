@@ -34,9 +34,9 @@ def process_journal(file_name):
                 track = line.split(':')[5].split('"')[1].strip()
                 #print("Music track: " + track)
 
-                if track == "MainMenu":
-                    print("Game has crashed!!")
-                    return False
+                #if track == "MainMenu":
+                    #print("Game has crashed!!")
+                    #return False
             if event == "Shutdown":
                 print("Game has crashed!!")
                 return False

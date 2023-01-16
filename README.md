@@ -1,4 +1,7 @@
 # CATS (Carrier Administration and Traversal System)
+
+#!!! This is an old version of CATS. A new version is being worked on which is easier to install and uses a GUI. !!!
+
 CATS is a flight computer to help guide your Fleet Carrier in Elite Dangerous
 across many thousands of light years automatically.
 
